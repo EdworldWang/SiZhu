@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mymusicpage.dart';
 
 void main() => runApp(SiZhuApp());
 
@@ -26,35 +27,6 @@ class SiZhuApp extends StatelessWidget {
   }
 }
 
-class FirstScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(' 丝竹页面 '),
-      ),
-      body: new RaisedButton(
-        child: new Text(' hhhh'),
-        onPressed: () {
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new SecondScreen()));
-        },
-      ),
-    );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(' 来吧老弟 '),
-      ),
-    );
-  }
-}
-
 class SiZhuHomePage extends StatefulWidget {
   @override
   createState() => _SiZhuHomePageState();
@@ -64,7 +36,7 @@ class _SiZhuHomePageState extends State<SiZhuHomePage> {
   int _selectedIndex = 1; //当前选项的索引
   final _widgetOptions = [
     Text('Index 0: 信息'),
-    Text('Index 1: 通讯录'),
+    MyMusicPage(),
     Text('Index 2: 发现'),
   ];
 
