@@ -53,6 +53,7 @@ class Player extends StatefulWidget {
 class PlayerState extends State<Player> {
   AudioPlayer audioPlayer;
   bool isPlaying = false;
+  bool isDragSeekbar = false;
   Duration duration;
   Duration position;
   double sliderValue;
@@ -80,23 +81,25 @@ class PlayerState extends State<Player> {
         setState(() {
           this.duration = duration;
 
-          if (position != null) {
+          if (position != null && !isDragSeekbar) {
             this.sliderValue = (position.inSeconds / duration.inSeconds);
           }
         });
       })
       ..positionHandler = ((position) {
-        setState(() {
-          this.position = position;
+        if (!isDragSeekbar) {
+          setState(() {
+            this.position = position;
 
-          if (panel != null) {
-            panel.handler(position.inSeconds);
-          }
+            if (panel != null) {
+              panel.handler(position.inSeconds);
+            }
 
-          if (duration != null) {
-            this.sliderValue = (position.inSeconds / duration.inSeconds);
-          }
-        });
+            if (duration != null) {
+              this.sliderValue = (position.inSeconds / duration.inSeconds);
+            }
+          });
+        }
       });
   }
 
@@ -116,6 +119,15 @@ class PlayerState extends State<Player> {
     int minute = d.inMinutes;
     int second = (d.inSeconds > 60) ? (d.inSeconds % 60) : d.inSeconds;
     print(d.inMinutes.toString() + "======" + d.inSeconds.toString());
+    String format = ((minute < 10) ? "0$minute" : "$minute") +
+        ":" +
+        ((second < 10) ? "0$second" : "$second");
+    return format;
+  }
+
+  String _formatDurationBySeconds(int seconds) {
+    int minute = seconds ~/ 60;
+    int second = seconds % 60;
     String format = ((minute < 10) ? "0$minute" : "$minute") +
         ":" +
         ((second < 10) ? "0$second" : "$second");
@@ -212,11 +224,26 @@ class PlayerState extends State<Player> {
       ),
       new Slider(
         onChanged: (newValue) {
+          //拖动过程中可以改变时间轴的秒数
           if (duration != null) {
             int seconds = (duration.inSeconds * newValue).round();
-            print("audioPlayer.seek: $seconds");
-            audioPlayer.seek(new Duration(seconds: seconds));
+            setState(() {
+              sliderValue = newValue;
+              position = new Duration(seconds: seconds);
+            });
           }
+        },
+        onChangeEnd: (newValue) {
+          isDragSeekbar = false;
+          //拖动结束才进行定位，这样不会造成拖动混乱
+          if (duration != null) {
+            /*int seconds = (duration.inSeconds * newValue).round();
+            print("audioPlayer.seek: $seconds");*/
+            audioPlayer.seek(position);
+          }
+        },
+        onChangeStart: (newValue) {
+          isDragSeekbar = true;
         },
         value: sliderValue ?? 0.0,
         activeColor: widget.color,
