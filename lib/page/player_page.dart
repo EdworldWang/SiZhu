@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:sizhu/controller/sizhuplayer.dart';
 import '../model/lyric.dart';
 import '../utils.dart';
 import '../widget/lyric_panel.dart';
@@ -73,7 +74,7 @@ class PlayerState extends State<Player> {
       });
     });
 
-    audioPlayer = new AudioPlayer();
+    audioPlayer = SiZhuPlayer.getInstance().mAudioPlayer;
     audioPlayer
       ..completionHandler = widget.onCompleted
       ..errorHandler = widget.onError
@@ -105,13 +106,13 @@ class PlayerState extends State<Player> {
 
   @override
   void deactivate() {
-    audioPlayer.stop();
+    //audioPlayer.stop();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    audioPlayer.release();
+    //audioPlayer.release();
     super.dispose();
   }
 
