@@ -1,9 +1,9 @@
 import 'dart:developer';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizhu/provider/player_provider.dart';
-import 'mymusicpage.dart';
+import 'page/mymusicpage.dart';
 
 void main() => runApp(SiZhuApp());
 
@@ -29,6 +29,7 @@ class SiZhuApp extends StatelessWidget {
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
           primarySwatch: Colors.blue,
+          platform: TargetPlatform.iOS,
         ),
         home: new SiZhuHomePage(),
       ),

@@ -14,18 +14,11 @@ class MyMusicPage extends StatelessWidget {
       body: new RaisedButton(
         child: new Text(' 等你下课 '),
         onPressed: () {
-          Provider.of<PlayerProvider>(context, listen: false).setProviderModel(new MusicPlayModel(0, 0, "等你下课", ""));
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => new SecondScreen()));
+              new MaterialPageRoute(builder: (context) => new MusicPlayerPage()));
+          Provider.of<PlayerProvider>(context, listen: false).setProviderModel(new MusicPlayModel(0, 0, "等你下课", ""));
         },
       ),
     );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MyApp();
   }
 }

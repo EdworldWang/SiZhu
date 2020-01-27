@@ -1,6 +1,9 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sizhu/controller/sizhuplayer.dart';
+import 'package:sizhu/model/music_play_model.dart';
+import 'package:sizhu/provider/player_provider.dart';
 import '../model/lyric.dart';
 import '../utils.dart';
 import '../widget/lyric_panel.dart';
@@ -81,7 +84,6 @@ class PlayerState extends State<Player> {
       ..durationHandler = ((duration) {
         setState(() {
           this.duration = duration;
-
           if (position != null && !isDragSeekbar) {
             this.sliderValue = (position.inSeconds / duration.inSeconds);
           }
