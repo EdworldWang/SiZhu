@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sizhu/page/main_search_result_page.dart';
 import 'package:sizhu/widget/search/search_input_widget.dart';
@@ -18,7 +19,8 @@ class _MainFindPageState extends State<MainFindPage> {
             children: <Widget>[
             new SearchInputWidget(
               onSubmitted: (text){
-                print('submit $text');
+                //print('submit $text');
+
                 Navigator.push(
                     context,
                     new MaterialPageRoute(

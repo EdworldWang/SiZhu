@@ -15,13 +15,7 @@ class MyMusicPage extends StatelessWidget {
       body: new RaisedButton(
         child: new Text(' 等你下课 '),
         onPressed: () {
-          Dio dio = new Dio();
-          dio.get<String>(
-              "http://111.229.77.179:3000/search",
-              queryParameters: {"keywords": "海阔天空"}).then(
-            (r) {
-              print(r.data);
-          });
+
           Navigator.push(
               context,
               new MaterialPageRoute(
