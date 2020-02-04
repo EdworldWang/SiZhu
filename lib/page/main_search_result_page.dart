@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sizhu/controller/search_result_tab_controller.dart';
+import 'package:sizhu/controller/sizhuplayer.dart';
 import 'package:sizhu/model/response/research/SearchResult.dart';
 import 'package:sizhu/model/response/research/Song.dart';
+import 'package:sizhu/page/player_main.dart';
 import 'package:sizhu/widget/search/search_input_widget.dart';
 
 class MainSearchResultPage extends StatefulWidget {
@@ -51,6 +53,15 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
                     children: allSearchResult.result.songs.map((Song song){
                       return new ListTile(
                         title: new Text(song.name),
+                        onTap: (){
+                          //设置当前歌曲
+                          SiZhuPlayer.getInstance().currentSongId = song.id.toString();
+                          print("点击了"+song.id.toString());
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new MusicPlayerPage()));
+                        },
                       );
                     }).toList(),
                   ),

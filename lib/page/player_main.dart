@@ -9,7 +9,7 @@ final GlobalKey<PlayerState> musicPlayerKey = new GlobalKey();
 const String coverArt =
     'https://p2.music.126.net/8xNVCemkSNQptEyNw1PHKg==/8914840278033758.jpg',
     mp3Url = 'https://sharefs.yun.kugou.com/202001242204/423883d07b17d182df0ff776de1b76df/G148/M09/0C/0D/1A0DAFviWPyAX0NVAELJjAwqF7U759.mp3',
-    mp3_anheqiao = 'http://45.77.24.200/images/anheqiao.mp3',
+    mp3_anheqiao = 'http://m7.music.126.net/20200204223628/326987500abe801cecd4b745ba06e9d5/ymusic/0709/0f5a/5353/0cee2b495680dd63dbc4d985072a18a5.mp3',
     mp3AssetPah = 'assets/media/sample.mp3';
 
 class MusicPlayerPage extends StatefulWidget {
@@ -147,7 +147,7 @@ class _MusicPlayerExampleState extends State<MusicPlayerPage>
                     },
                     key: musicPlayerKey,
                     color: Colors.white,
-                    audioUrl: mp3_anheqiao,
+                    //audioUrl: mp3_anheqiao,
                   ),
                 ),
               ],

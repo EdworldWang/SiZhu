@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizhu/controller/sizhuplayer.dart';
 import 'package:sizhu/model/music_play_model.dart';
+import 'package:sizhu/model/response/audiourl/AudioUrlResult.dart';
+import 'package:sizhu/model/response/detail/SongDetailResult.dart';
 import 'package:sizhu/provider/player_provider.dart';
 import '../model/lyric.dart';
 import '../utils.dart';
@@ -33,6 +35,7 @@ class Player extends StatefulWidget {
 
   final Color color;
 
+  final String songId;
   /// 是否是本地资源
   final bool isLocal;
 
@@ -46,7 +49,8 @@ class Player extends StatefulWidget {
       this.volume: 1.0,
       this.onPlaying,
       this.color: Colors.white,
-      this.isLocal: false});
+      this.isLocal: false,
+      this.songId});
 
   @override
   State<StatefulWidget> createState() {
@@ -63,12 +67,19 @@ class PlayerState extends State<Player> {
   double sliderValue;
   Lyric lyric;
   LyricPanel panel;
+  String audioUrl;
   PositionChangeHandler handler;
 
   @override
   void initState() {
     super.initState();
-    print("audioUrl:" + widget.audioUrl);
+    if(widget.audioUrl == null){
+      _getAudioUrl();
+    }else{
+      audioUrl = widget.audioUrl;
+    }
+
+    //print("audioUrl:" + widget.audioUrl);
     Utils.getLyricFromTxt().then((Lyric lyric) {
       print("getLyricFromTxt:" + lyric.slices.length.toString());
       setState(() {
@@ -76,7 +87,6 @@ class PlayerState extends State<Player> {
         panel = new LyricPanel(this.lyric);
       });
     });
-
     audioPlayer = SiZhuPlayer.getInstance().mAudioPlayer;
     audioPlayer
       ..completionHandler = widget.onCompleted
@@ -106,6 +116,17 @@ class PlayerState extends State<Player> {
       });
   }
 
+  _getAudioUrl(){
+    print("audioUrl get get get");
+    SiZhuPlayer.getInstance().getCurrentSongInfo((AudioUrlResult audioUrlResult){
+      setState(() {
+        print("audio audioUrlResult url"+ audioUrlResult.data[0].url);
+        audioUrl = audioUrlResult.data[0].url;
+      });
+    },(){
+      print("audioUrl getInfoError");
+    });
+  }
   @override
   void deactivate() {
     //audioPlayer.stop();
@@ -197,7 +218,7 @@ class PlayerState extends State<Player> {
                   audioPlayer.pause();
                 else {
                   audioPlayer.play(
-                    widget.audioUrl,
+                    audioUrl,
                     isLocal: widget.isLocal,
                     volume: widget.volume,
                   );
