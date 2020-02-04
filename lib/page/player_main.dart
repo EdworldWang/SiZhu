@@ -75,7 +75,6 @@ class _MusicPlayerExampleState extends State<MusicPlayerPage>
                 child: Opacity(
                   opacity: 0.6,
                   child: new Container(
-                    color: Colors.grey.shade900,
                     decoration: new BoxDecoration(
                       color: Colors.grey.shade900,
                     ),

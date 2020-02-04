@@ -2,8 +2,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizhu/page/main_find_page.dart';
 import 'package:sizhu/provider/player_provider.dart';
-import 'page/mymusicpage.dart';
+import 'page/main_mine_page.dart';
 
 void main() => runApp(SiZhuApp());
 
@@ -28,7 +29,10 @@ class SiZhuApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.red,
+          primaryIconTheme: IconThemeData(
+            color: Colors.black45,
+          ),
           platform: TargetPlatform.iOS,
         ),
         home: new SiZhuHomePage(),
@@ -45,7 +49,7 @@ class SiZhuHomePage extends StatefulWidget {
 class _SiZhuHomePageState extends State<SiZhuHomePage> {
   int _selectedIndex = 1; //当前选项的索引
   final _widgetOptions = [
-    Text('Index 0: 信息'),
+    MainFindPage(),
     MyMusicPage(),
     Text('Index 2: 发现'),
   ];
