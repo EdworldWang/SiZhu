@@ -17,15 +17,20 @@ class _MainFindPageState extends State<MainFindPage> {
     return new Scaffold(
         body: new Column(
             children: <Widget>[
-            new SearchInputWidget(
-              onSubmitted: (text){
-                //print('submit $text');
+              new Container(
+                child: new SearchInputWidget(
+                  onSubmitted: (text){
+                    //print('submit $text');
 
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new MainSearchResultPage()));
-            },)
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new MainSearchResultPage()));
+                  },
+                ),
+                padding: EdgeInsets.all(40),
+              )
+
           ],
     ));
   }

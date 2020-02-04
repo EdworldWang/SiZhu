@@ -23,10 +23,6 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
   void initState() {
     super.initState();
     this.inputText = (widget.preInputText != null ? widget.preInputText : "");
-  }
-
-  @override
-  Widget build(BuildContext context) {
     final TextEditingController inputController = TextEditingController.fromValue(TextEditingValue(
         text: this.inputText,  //判断keyword是否为空
         // 保持光标在最后
@@ -35,9 +31,11 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
             offset: '${this.inputText}'.length)
         )
     ));
-    inputController.addListener(() {
-       // print(' input' + inputController.text);
-    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     return new Container(
       //margin: EdgeInsets.only(left: 40, top: 40),
       //设置 child 居中
@@ -55,13 +53,13 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
       ),
       child: TextField(
         //maxLines: 1,
-        controller: inputController,
+        //controller: inputController,
         maxLength: 30,
         cursorColor: Colors.black,
         style: TextStyle(fontSize: 16, color: Colors.black),
         onChanged: (text){
           setState(() {
-            inputText = text;
+            //inputText = text;
             showCancel = (text.length > 0);
           });
         },

@@ -30,6 +30,12 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
     Tab(text: '歌词'),
     Tab(text: '用户'),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new DefaultTabController(
