@@ -47,7 +47,7 @@ class SiZhuHomePage extends StatefulWidget {
 }
 
 class _SiZhuHomePageState extends State<SiZhuHomePage> {
-  int _selectedIndex = 1; //当前选项的索引
+  int _selectedIndex = 0; //当前选项的索引
   final _widgetOptions = [
     MainFindPage(),
     MyMusicPage(),
@@ -82,7 +82,7 @@ class _SiZhuHomePageState extends State<SiZhuHomePage> {
               BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text(' 账号'))
             ],
             currentIndex: _selectedIndex,
-            fixedColor: Colors.deepPurple,
+            //fixedColor: Colors.deepPurple,
             onTap: _onItemTapped,
           ),
         ]

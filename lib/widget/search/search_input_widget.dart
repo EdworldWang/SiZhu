@@ -17,7 +17,6 @@ class SearchInputWidget extends StatefulWidget {
 
 class _SearchInputWidgetState extends State<SearchInputWidget> {
   final TextEditingController _queryTextController = TextEditingController();
-  bool showCancel = false;
 
   String get query => _queryTextController.text;
 
@@ -26,18 +25,26 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
     _queryTextController.text = value;
   }
 
+  final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
     _queryTextController.addListener(_onQueryTextChanged);
+    _focusNode.addListener(_onFocusChanged);
     //设置默认的值
     query = (widget.preInputText != null? widget.preInputText: "");
+  }
+
+  void _onFocusChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
     super.dispose();
     _queryTextController.removeListener(_onQueryTextChanged);
+    _focusNode.removeListener(_onFocusChanged);
   }
 
   void _onQueryTextChanged() {
@@ -75,20 +82,15 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
       child: new TextField(
         //maxLines: 1,
         controller: _queryTextController,
+        focusNode: _focusNode,
         maxLength: 30,
         cursorColor: Colors.black,
         autocorrect: true,
         style: TextStyle(fontSize: 16, color: Colors.black),
-        onChanged: (text){
-          print("searchInput onChanged "+ text);
-          setState(() {
-            print("searchInput setState "+ text);
-            //inputText = text;
-            showCancel = (text.length > 0);
-          });
-        },
         //内容提交(按回车)的回调
         onSubmitted: (text) {
+          print("失去焦点");
+          _focusNode.unfocus();
           widget.onSubmitted != null && widget.onSubmitted(text);
         },
         decoration: InputDecoration(
@@ -98,7 +100,7 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
             size: 24,
           ),
           suffixIcon: new Offstage(
-            offstage: !showCancel,
+            offstage: query.isEmpty,
             child: new IconButton(
                 icon: Icon(
                   Icons.cancel,
@@ -120,7 +122,6 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
   void _onClickClear() {
     setState(() {
       query = '';
-      showCancel = false;
     });
   }
 }
