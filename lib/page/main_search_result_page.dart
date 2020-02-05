@@ -21,7 +21,7 @@ class MainSearchResultPage extends StatefulWidget {
 }
 
 class _MainSearchResultPageState extends State<MainSearchResultPage> {
-  String searchWord;  //搜索关键词
+  String searchWord; //搜索关键词
   SearchResult allSearchResult;
 
   final List<Tab> searchResultTabs = <Tab>[
@@ -38,88 +38,90 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
   @override
   void initState() {
     super.initState();
-    if(widget.preSearchInputText != null && widget.preSearchInputText.isNotEmpty){
+    if (widget.preSearchInputText != null &&
+        widget.preSearchInputText.isNotEmpty) {
       _onSumittedSearchWord(widget.preSearchInputText);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new NotificationListener(
-      onNotification: (ScrollNotification note) {
-        //print(note.metrics.pixels.toInt());  // 滚动位置。
-        FocusScope.of(context).requestFocus(FocusNode());
-      },
-      child: new DefaultTabController(
-          length: searchResultTabs.length,
-          child: Scaffold(
-            resizeToAvoidBottomPadding: false, //输入框抵住键盘 内容不随键盘滚动
-            appBar: AppBar(
-              title: SearchInputWidget(onSubmitted: _onSumittedSearchWord,preInputText: widget.preSearchInputText,),
-              backgroundColor: Colors.white,
-              bottom:TabBar(
-                labelColor: Colors.red,
-                unselectedLabelColor: Colors.black,
-                isScrollable: true,
-                tabs: searchResultTabs,
-                onTap: (int){
-                  //失去焦点
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-              ),
+    return new DefaultTabController(
+        length: searchResultTabs.length,
+        child: Scaffold(
+          resizeToAvoidBottomPadding: false, //输入框抵住键盘 内容不随键盘滚动
+          appBar: AppBar(
+            title: SearchInputWidget(
+              onSubmitted: _onSumittedSearchWord,
+              preInputText: widget.preSearchInputText,
             ),
-            body: GestureDetector(
-              onTap: (){
-                // 点击空白页面关闭键盘
-                print("点击空白处");
+            backgroundColor: Colors.white,
+            bottom: TabBar(
+              labelColor: Colors.red,
+              unselectedLabelColor: Colors.black,
+              isScrollable: true,
+              tabs: searchResultTabs,
+              onTap: (int) {
+                //失去焦点
                 FocusScope.of(context).requestFocus(FocusNode());
               },
-              child: TabBarView(
-                children: searchResultTabs.map((Tab tab){
-                  if(tab.text == "综合" && allSearchResult != null){
-                    return new Center(
-                      child: new ListView(
-                        children: allSearchResult.result.songs.map((Song song){
-                          return new ListTile(
-                            title: new Text(song.name),
-                            onTap: (){
-                              //设置当前歌曲
-                              SiZhuPlayer.getInstance().currentSongId = song.id.toString();
-                              print("点击了"+song.id.toString());
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => new MusicPlayerPage()));
-                            },
-                          );
-                        }).toList(),
-                      ),
-                    );
-                  }else{
-                    return Center(child: Text(tab.text));
-                  }
-
-                }).toList(),
-              ),
             ),
-          ))
-    );
-
+          ),
+          body: GestureDetector(
+            onTap: () {
+              // 点击空白页面关闭键盘
+              print("点击空白处");
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: TabBarView(
+              children: searchResultTabs.map((Tab tab) {
+                if (tab.text == "综合" && allSearchResult != null) {
+                  return new Center(
+                      child: new NotificationListener(
+                    onNotification: (ScrollNotification note) {
+                      //print(note.metrics.pixels.toInt());  // 滚动位置。
+                      print("listview scroll");
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    child: new ListView(
+                      children: allSearchResult.result.songs.map((Song song) {
+                        return new ListTile(
+                          title: new Text(song.name),
+                          onTap: () {
+                            //设置当前歌曲
+                            SiZhuPlayer.getInstance().currentSongId =
+                                song.id.toString();
+                            print("点击了" + song.id.toString());
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new MusicPlayerPage()));
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ));
+                } else {
+                  return Center(child: Text(tab.text));
+                }
+              }).toList(),
+            ),
+          ),
+        ));
   }
 
-  _onSumittedSearchWord(text){
+  _onSumittedSearchWord(text) {
     Dio dio = new Dio();
-    dio.get<String>(
-        "http://111.229.77.179:3000/search",
-        queryParameters: {"keywords": text}).then(
-            (r) {
-          print(r.data);
-          Map userMap = json.decode(r.data.toString());
-          var tempResult = new SearchResult.fromJson(userMap);
-          print(tempResult.result.songs[0].duration);
-          setState(() {
-            this.allSearchResult = tempResult;
-          });
+    dio.get<String>("http://111.229.77.179:3000/search",
+        queryParameters: {"keywords": text}).then((r) {
+      print(r.data);
+      Map userMap = json.decode(r.data.toString());
+      var tempResult = new SearchResult.fromJson(userMap);
+      print(tempResult.result.songs[0].duration);
+      setState(() {
+        this.allSearchResult = tempResult;
+      });
     });
   }
 }
