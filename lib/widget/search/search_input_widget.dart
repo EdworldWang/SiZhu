@@ -18,7 +18,6 @@ class SearchInputWidget extends StatefulWidget {
 class _SearchInputWidgetState extends State<SearchInputWidget> {
   final TextEditingController _queryTextController = TextEditingController();
   bool showCancel = false;
-  String inputText = "";
 
   String get query => _queryTextController.text;
 
@@ -30,8 +29,9 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
   @override
   void initState() {
     super.initState();
-    this.inputText = (widget.preInputText != null ? widget.preInputText : "");
     _queryTextController.addListener(_onQueryTextChanged);
+    //设置默认的值
+    query = (widget.preInputText != null? widget.preInputText: "");
   }
 
   @override

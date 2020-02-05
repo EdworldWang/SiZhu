@@ -25,7 +25,7 @@ class _MainFindPageState extends State<MainFindPage> {
                     Navigator.push(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => new MainSearchResultPage()));
+                            builder: (context) => new MainSearchResultPage(preSearchInputText: text)));
                   },
                 ),
                 padding: EdgeInsets.all(40),

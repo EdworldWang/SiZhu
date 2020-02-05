@@ -10,6 +10,10 @@ import 'package:sizhu/page/player_main.dart';
 import 'package:sizhu/widget/search/search_input_widget.dart';
 
 class MainSearchResultPage extends StatefulWidget {
+  String preSearchInputText;
+
+  MainSearchResultPage({this.preSearchInputText});
+
   @override
   State<StatefulWidget> createState() {
     return new _MainSearchResultPageState();
@@ -34,6 +38,9 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
   @override
   void initState() {
     super.initState();
+    if(widget.preSearchInputText != null && widget.preSearchInputText.length > 0){
+      _onSumittedSearchWord(widget.preSearchInputText);
+    }
   }
 
   @override
@@ -42,7 +49,7 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
         length: searchResultTabs.length,
         child: Scaffold(
           appBar: AppBar(
-            title: SearchInputWidget(onSubmitted: _onSumittedSearchWord),
+            title: SearchInputWidget(onSubmitted: _onSumittedSearchWord,preInputText: widget.preSearchInputText,),
             backgroundColor: Colors.white,
             bottom:TabBar(
                 labelColor: Colors.red,
@@ -53,7 +60,7 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
           ),
           body:  TabBarView(
             children: searchResultTabs.map((Tab tab){
-              if(tab.text == "单曲" && allSearchResult != null){
+              if(tab.text == "综合" && allSearchResult != null){
                 return new Center(
                   child: new ListView(
                     children: allSearchResult.result.songs.map((Song song){

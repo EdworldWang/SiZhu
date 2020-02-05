@@ -13,6 +13,7 @@ const String coverArt =
     mp3AssetPah = 'assets/media/sample.mp3';
 
 class MusicPlayerPage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return new _MusicPlayerExampleState();
