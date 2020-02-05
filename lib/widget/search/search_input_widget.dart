@@ -23,19 +23,20 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
   void initState() {
     super.initState();
     this.inputText = (widget.preInputText != null ? widget.preInputText : "");
-    final TextEditingController inputController = TextEditingController.fromValue(TextEditingValue(
-        text: this.inputText,  //判断keyword是否为空
-        // 保持光标在最后
-        selection: TextSelection.fromPosition(TextPosition(
-            affinity: TextAffinity.downstream,
-            offset: '${this.inputText}'.length)
-        )
-    ));
+
   }
 
   @override
   Widget build(BuildContext context) {
-
+    print("searchInput build "+ this.inputText);
+    TextEditingController inputController = TextEditingController.fromValue(TextEditingValue(
+        text: inputText,  //判断keyword是否为空
+        // 保持光标在最后
+        selection: TextSelection.fromPosition(TextPosition(
+            affinity: TextAffinity.downstream,
+            offset: '${inputText}'.length)
+        )
+    ));
     return new Container(
       //margin: EdgeInsets.only(left: 40, top: 40),
       //设置 child 居中
@@ -51,15 +52,18 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
         //设置四周边框
         //border: new Border.all(width: 1, color: Colors.red),
       ),
-      child: TextField(
+      child: new TextField(
         //maxLines: 1,
-        //controller: inputController,
+        controller: inputController,
         maxLength: 30,
         cursorColor: Colors.black,
+        autocorrect: true,
         style: TextStyle(fontSize: 16, color: Colors.black),
         onChanged: (text){
+          print("searchInput onChanged "+ text);
           setState(() {
-            //inputText = text;
+            print("searchInput setState "+ text);
+            inputText = text;
             showCancel = (text.length > 0);
           });
         },
