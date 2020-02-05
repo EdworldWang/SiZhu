@@ -13,7 +13,7 @@ class MyMusicPage extends StatelessWidget {
         title: new Text(' 播放 '),
       ),
       body: new RaisedButton(
-        child: new Text(' 等你下课 '),
+        child: new Text(' 等你就ss下课  '),
         onPressed: () {
 
           Navigator.push(

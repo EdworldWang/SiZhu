@@ -16,19 +16,39 @@ class SearchInputWidget extends StatefulWidget {
 }
 
 class _SearchInputWidgetState extends State<SearchInputWidget> {
+  final TextEditingController _queryTextController = TextEditingController();
   bool showCancel = false;
   String inputText = "";
+
+  String get query => _queryTextController.text;
+
+  set query(String value) {
+    assert(value != null);
+    _queryTextController.text = value;
+  }
 
   @override
   void initState() {
     super.initState();
     this.inputText = (widget.preInputText != null ? widget.preInputText : "");
+    _queryTextController.addListener(_onQueryTextChanged);
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _queryTextController.removeListener(_onQueryTextChanged);
+  }
+
+  void _onQueryTextChanged() {
+    setState(() {
+      // rebuild ourselves because query changed.
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    print("searchInput build "+ this.inputText);
+    /*print("searchInput build "+ this.inputText);
     TextEditingController inputController = TextEditingController.fromValue(TextEditingValue(
         text: inputText,  //判断keyword是否为空
         // 保持光标在最后
@@ -36,7 +56,7 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
             affinity: TextAffinity.downstream,
             offset: '${inputText}'.length)
         )
-    ));
+    ));*/
     return new Container(
       //margin: EdgeInsets.only(left: 40, top: 40),
       //设置 child 居中
@@ -54,7 +74,7 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
       ),
       child: new TextField(
         //maxLines: 1,
-        controller: inputController,
+        controller: _queryTextController,
         maxLength: 30,
         cursorColor: Colors.black,
         autocorrect: true,
@@ -63,7 +83,7 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
           print("searchInput onChanged "+ text);
           setState(() {
             print("searchInput setState "+ text);
-            inputText = text;
+            //inputText = text;
             showCancel = (text.length > 0);
           });
         },
@@ -99,7 +119,7 @@ class _SearchInputWidgetState extends State<SearchInputWidget> {
   //点击下方选项进行界面切换
   void _onClickClear() {
     setState(() {
-      inputText = "";
+      query = '';
       showCancel = false;
     });
   }
