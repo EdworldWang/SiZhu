@@ -10,6 +10,7 @@ import 'package:dio/dio.dart';
 import 'package:sizhu/model/response/audiourl/AudioUrlResult.dart';
 import 'package:sizhu/model/response/detail/SongDetailResult.dart';
 import 'package:sizhu/model/response/research/SearchResult.dart';
+import 'package:sizhu/net/model/model_search_info.dart';
 class  BussinessProvider{
   //工厂模式 : 单例公开访问点
   factory BussinessProvider() =>getInstance();
@@ -61,11 +62,11 @@ class  BussinessProvider{
         });
   }
 
-  getSearchInfo(String keywords, Function successCallBack, Function errorCallBack){
+  getSearchInfo(SearchModel searchModel, Function successCallBack, Function errorCallBack){
     Dio dio = new Dio();
     dio.get<String>(
         SERVER_URL + SEARCH,
-        queryParameters: {"keywords": keywords}).then((r) {
+        queryParameters: searchModel.toMap()).then((r) {
       print(r.data);
       Map userMap = json.decode(r.data.toString());
       var tempResult = new SearchResult.fromJson(userMap);
