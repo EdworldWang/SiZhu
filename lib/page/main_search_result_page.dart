@@ -6,6 +6,7 @@ import 'package:sizhu/controller/search_result_tab_controller.dart';
 import 'package:sizhu/controller/sizhuplayer.dart';
 import 'package:sizhu/model/response/research/SearchResult.dart';
 import 'package:sizhu/model/response/research/Song.dart';
+import 'package:sizhu/net/music/bussiness_music_api.dart';
 import 'package:sizhu/page/player_main.dart';
 import 'package:sizhu/widget/search/search_input_widget.dart';
 
@@ -80,7 +81,6 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
                       child: new NotificationListener(
                     onNotification: (ScrollNotification note) {
                       //print(note.metrics.pixels.toInt());  // 滚动位置。
-                      print("listview scroll");
                       FocusScope.of(context).requestFocus(FocusNode());
                     },
                     child: new ListView(
@@ -111,17 +111,12 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> {
         ));
   }
 
-  _onSumittedSearchWord(text) {
-    Dio dio = new Dio();
-    dio.get<String>("http://111.229.77.179:3000/search",
-        queryParameters: {"keywords": text}).then((r) {
-      print(r.data);
-      Map userMap = json.decode(r.data.toString());
-      var tempResult = new SearchResult.fromJson(userMap);
-      print(tempResult.result.songs[0].duration);
+  _onSumittedSearchWord(keywords) {
+    BussinessProvider.getInstance().getSearchInfo(
+        keywords, (SearchResult searchResult) {
       setState(() {
-        this.allSearchResult = tempResult;
+        this.allSearchResult = searchResult;
       });
-    });
+    }, () {});
   }
 }
