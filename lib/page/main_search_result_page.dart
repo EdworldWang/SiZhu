@@ -78,6 +78,7 @@ class _MainSearchResultPageState extends State<MainSearchResultPage> with Single
             backgroundColor: Colors.white,
             bottom: TabBar(
               labelColor: Colors.red,
+              controller: _tabController,
               unselectedLabelColor: Colors.black,
               isScrollable: true,
               tabs: searchResultTabs,

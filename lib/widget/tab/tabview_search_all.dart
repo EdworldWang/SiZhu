@@ -3,5 +3,13 @@
 * @Author: Edward
 * @Date: 2020-02-06
 */
-/*
-class SearchAllTabView extends */
+import 'package:flutter/cupertino.dart';
+
+class SearchAllTabView extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+
+}
